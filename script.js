@@ -2,131 +2,106 @@
 const challengeTextElement = document.getElementById('challenge-text');
 const nextChallengeBtn = document.getElementById('next-challenge-btn');
 
-// --- 2. BASE DE DATOS DE COMANDOS (VERSIÓN DEFINITIVA +100) ---
-const challenges = [
-    // PREGUNTAS HOT
-    "¿Qué parte de tu cuerpo te gusta más que yo toque?",
-    "¿Qué harías si estuviéramos solos en una habitación sin ropa?",
-    "¿Tienes alguna fantasía pendiente conmigo?",
-    "¿Prefieres hablar sucio o quedarte en silencio?",
-    "¿Qué prenda mía te gustaría quitarme primero?",
-    "¿Alguna vez pensaste en mí mientras te tocabas?",
-    "¿Cómo sería tu “noche perfecta” conmigo?",
-    "¿Te atreverías a hacerlo en un lugar público?",
-    "¿Te gusta cuando tomo el control o cuando lo tomas tú?",
-    "¿Me describirías un sueño erótico que tuviste conmigo?",
-    "¿En qué lugar de tu cuerpo te gusta más que te besen?",
-    "¿Qué harías si hoy llegara sin avisar a tu casa?",
-    "¿Qué tipo de fotos o videos te gustaría que te mande?",
-    "¿Qué parte mía te excita solo de recordarla?",
-    "¿Qué te gustaría probar juntos que nunca hemos hecho?",
-    "¿Qué palabra caliente te enciende al instante?",
-    "¿Cómo sería nuestra primera vez (si aún no ha pasado)?",
-    "¿Qué harías si ahora mismo te pidiera un video atrevido?",
-    "¿Te atreverías a mandarme un audio diciendo lo que me harías?",
-    "¿Te excita más hablar por teléfono o por videollamada?",
-    "¿Te gustaría que grabáramos algo solo para nosotros?",
-    "¿Me describirías paso a paso lo que me harías si me tuvieras al frente?",
-    "¿Con qué frecuencia piensas en nosotros teniendo sexo?",
-    "¿Hay algo que siempre quisiste decirme, pero no te atreves?",
-    "¿Te gusta cuando soy dominante o sumis@?",
-    "¿Alguna vez has usado algo para “jugar” pensando en mí?",
-    "¿Cuál sería tu outfit ideal para seducirme?",
-    "¿Qué me harías si te digo “haz lo que quieras conmigo”?",
-    "¿Cuál fue la última vez que te tocaste pensando en mí?",
-    "¿Dónde me besarías si solo tuvieras 10 segundos?",
-    "¿Qué posición te gustaría intentar conmigo?",
-    "¿Qué sonido mío te excita más?",
-    "¿Te atreverías a hacer un roleplay conmigo por llamada?",
-    "¿Qué me pedirías que te haga sin que puedas decir “no”?",
-    "¿Has soñado con algo hot entre nosotros?",
-    "¿Dónde te gustaría que te acaricie primero?",
-    "¿Te gustaría que hiciéramos un striptease por videollamada?",
-    "¿Cuál es tu zona más sensible?",
-    "¿Cómo te gustaría despertarte una mañana conmigo?",
-    "¿Qué canción te haría pensar en hacer el amor conmigo?",
-    "¿Cuál fue tu pensamiento más caliente hoy?",
-    "¿Qué te excita más: lo visual o lo que digo?",
-    "¿Con qué frecuencia piensas en nuestro próximo encuentro?",
-    "¿Qué harías si te reto a excitarme solo con tu voz?",
-    "¿Qué prenda te gustaría verme usar… y luego quitarme?",
-    "¿Te gustaría ver una versión más atrevida de mí?",
-    "¿Qué fantasía crees que deberíamos cumplir sí o sí?",
-    "¿Te atreverías a describir cómo se siente estar conmigo?",
-    "¿Qué parte mía recordarás si estás solo(a) esta noche?",
-    "¿Qué “palabra clave” usarías para decirme que estás hot?",
+// --- 2. MOTOR LOCAL (NUESTRO PLAN B, CON LA ÚLTIMA VERSIÓN BUENA) ---
+const localDB = {
+    components: {
+        bodyParts: ["tu cuello", "tus labios", "tu espalda baja", "tus muslos", "tus hombros", "el lóbulo de tu oreja", "tus caderas", "tu abdomen", "tus manos"],
+        adjectives: ["apasionado", "lento y profundo", "travieso", "dominante", "tierno e inesperado", "prohibido"],
+        topics: ["nuestro primer beso", "la última vez que nos vimos", "lo que más te gusta de mí", "una fantasía secreta"]
+    },
+    baseChallenges: [
+        { level: 1, text: "¿Qué es lo primero que harías si estuviera ahora mismo a tu lado?" }, { level: 1, text: "Usa tres emojis para describir tus ganas de verme." }, { level: 1, text: "Confiesa cuál de mis rasgos físicos te distrae más." }, { level: 1, text: "Si tuvieras que dedicarme una canción ahora mismo, ¿cuál sería y por qué?" }, { level: 1, text: "Mándame una foto de tu sonrisa más pícara." }, { level: 2, text: "Quítate una prenda de ropa, la que tú elijas, y describe cómo te sientes." }, { level: 2, text: "Mándame un audio con tu respiración, imaginando que estoy muy cerca." }, { level: 2, text: "Hazme una confesión: ¿Qué es lo más atrevido que has pensado hacer conmigo?" }, { level: 2, text: "Mírame a los ojos a través de la cámara y muérdete el labio inferior muy lentamente." }, { level: 3, text: "Mándame un audio gimiendo mi nombre como si no pudieras aguantar más." }, { level: 3, text: "Dime una orden explícita que te gustaría que yo cumpliera ahora mismo, sin peros." }, { level: 3, text: "Simula un orgasmo para mí, solo con el sonido de tu voz." }, { level: 3, text: "Describe cómo te tocarías si yo te estuviera mirando desde el otro lado de la habitación." }
+    ],
+    templateChallenges: [
+        { level: 1, template: () => `Describe con detalle un beso __ADJECTIVE__.` }, { level: 1, template: () => `Hazme una confesión sobre __TOPIC__.` }, { level: 2, template: () => `Envíame una foto artística de __BODY_PART__.` }, { level: 2, template: () => `Describe la sensación de mis manos acariciando __BODY_PART__.` }, { level: 3, template: () => `Fantasea en voz alta sobre qué pasaría si te ato las manos y beso __BODY_PART__.` }, { level: 3, template: () => `¿Qué es lo más pervertido que te gustaría probar relacionado con __BODY_PART__?` }
+    ]
+};
 
-    // MINI RETOS HOT
-    "Mándame un emoji que resuma cómo te sientes ahora (sin palabras).",
-    "Escríbeme tu fantasía conmigo en solo 3 frases.",
-    "Grábate diciendo una frase caliente en voz baja.",
-    "Envíame una foto artística (no explícita) pero sensual.",
-    "Mándame un mensaje de voz diciendo qué harías si estuviera en tu cama.",
-    "Escribe mi nombre con tu dedo en una parte de tu cuerpo… y mándame foto de la zona (sin mostrar todo).",
-    "Mándame un audio con gemidos suaves (sin mencionar palabras).",
-    "Envíame un 'te deseo' de la forma más sexy que se te ocurra.",
-    "Cuéntame un sueño erótico tuyo en menos de 1 minuto.",
-    "Hazme una pregunta hot que no te atreverías en persona.",
-    "Mándame una foto de algo que usarías para seducirme (ropa, perfume, etc).",
-    "Hazme una confesión que te dé un poco de vergüenza.",
-    "Rétame a decirte algo sucio usando solo 5 palabras.",
-    "Imagina que estoy tocándote… descríbelo como si fuera real.",
-    "Dime 3 cosas que harías conmigo sin censura.",
-    "Envíame un mensaje de texto como si estuvieras a punto de tenerme encima.",
-    "Escríbeme tu “plan” para una noche caliente entre nosotros.",
-    "Rétame a escribirte un texto hot con emojis.",
-    "Haz un roleplay por texto: tú dominas y yo obedezco.",
-    "Mándame un audio diciendo mi nombre como si lo susurraras en la cama.",
-    "Haz una cuenta regresiva: “5 cosas que me harías ahora”.",
-    "Rétame a excitarte solo con palabras.",
-    "Mándame una pista (foto o audio) de cómo estás vestid@ ahora.",
-    "Envíame una foto tuya sonriendo de forma traviesa.",
-    "Haz una “confesión hot” y no la expliques.",
-    "Dime cómo te gustaría que te bese (¡detalles!).",
-    "Escríbeme algo que nunca le dirías a nadie.",
-    "Envíame un mensaje que diga: “No sabes lo que me harías si estuvieras aquí”.",
-    "Descríbeme el primer movimiento que harías si me ves desnudo/a.",
-    "Reescribe una canción romántica… pero vuelve la letra hot.",
-    "Mándame una nota de voz diciendo “quiero más”.",
-    "Describe cómo me mirarías si estuviéramos cara a cara.",
-    "Escríbeme 3 frases sucias (sin usar malas palabras).",
-    "Mándame un meme picante que te represente ahora.",
-    "Haz una lista: “5 cosas que me harías con los ojos vendados”.",
-    "Escríbeme un mini relato hot (menos de 100 palabras).",
-    "Grábate diciendo: “Solo piensa en esto esta noche…”",
-    "Envíame un mensaje que solo diga “tócame con palabras”.",
-    "Dime cuál parte tuya está más caliente ahora.",
-    "Mándame una pregunta que tú también deberás responder.",
-    "Dime: “Esta noche quiero que sueñes que yo te…”",
-    "Mándame una foto con una mirada que diga “hazme lo que quieras”.",
-    "Dime cómo te excito más: lento o rápido.",
-    "Rétame a seducirte sin fotos ni voz, solo con texto.",
-    "Mándame un emoji escondido entre palabras que solo yo entenderé.",
-    "Dime qué harías si esta llamada no tuviera ropa.",
-    "Rétame a decirte un secreto hot ahora mismo.",
-    "Escríbeme como si fuera la última vez que me ves.",
-    "Dime cómo te gustaría que te acaricie si estuviéramos viendo una peli.",
-    "Mándame una pista: ¿estás “caliente”, “ardiendo” o “a punto de explotar”?"
-];
+// --- 3. ESTADO DEL JUEGO ---
+const gameState = {
+    heatLevel: 1,
+    challengeCount: 0,
+    history: [],
+};
 
-// --- 3. LÓGICA DEL JUEGO ---
-let lastChallengeIndex = -1;
+// --- 4. LÓGICA DEL MOTOR HÍBRIDO ---
 
-function showNewChallenge() {
-    let newIndex;
+// Plan B: Genera un reto desde nuestra base de datos local
+function generateChallengeFromLocalDB() {
+    console.warn("-> Usando motor local de respaldo.");
+    let challengeText = "";
+    const heat = gameState.heatLevel;
+    const availableBase = localDB.baseChallenges.filter(c => c.level <= heat);
+    const availableTemplates = localDB.templateChallenges.filter(t => t.level <= heat);
+
     do {
-        newIndex = Math.floor(Math.random() * challenges.length);
-    } while (challenges.length > 1 && newIndex === lastChallengeIndex);
-    
-    lastChallengeIndex = newIndex;
-    const newChallenge = challenges[newIndex];
-    
+        if (Math.random() < 0.8 && availableBase.length > 0) {
+            challengeText = selectRandom(availableBase).text;
+        } else {
+            const templateData = selectRandom(availableTemplates);
+            const templateFunc = templateData.template;
+            let generatedText = templateFunc.toString();
+            if (generatedText.includes('__BODY_PART__')) { challengeText = templateFunc().replace('__BODY_PART__', selectRandom(localDB.components.bodyParts)); }
+            else if (generatedText.includes('__ADJECTIVE__')) { challengeText = templateFunc().replace('__ADJECTIVE__', selectRandom(localDB.components.adjectives)); }
+            else if (generatedText.includes('__TOPIC__')) { challengeText = templateFunc().replace('__TOPIC__', selectRandom(localDB.components.topics)); }
+            else { challengeText = templateFunc(); }
+        }
+    } while (gameState.history.includes(challengeText));
+    return challengeText;
+}
+
+// Plan A: El motor principal que intenta usar la IA
+async function nextTurn() {
+    nextChallengeBtn.disabled = true;
+    nextChallengeBtn.textContent = "Pensando...";
+    let challenge = "";
+
+    try {
+        console.log("Intentando obtener reto de la IA...");
+        const response = await fetch('/.netlify/functions/getAIChallenge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ history: gameState.history.slice(-5) }) // Envía solo los últimos 5 para no sobrecargar el prompt
+        });
+
+        if (!response.ok) { throw new Error('La IA no respondió correctamente.'); }
+        const data = await response.json();
+        if (data.error) { throw new Error(data.error); }
+        challenge = data.challenge;
+        console.log("✅ Reto recibido de la IA:", challenge);
+    } catch (error) {
+        console.warn("Fallo de la IA. Motivo:", error.message, "Activando motor local.");
+        challenge = generateChallengeFromLocalDB();
+    }
+
+    // Lógica para subir de nivel
+    gameState.challengeCount++;
+    if (gameState.challengeCount === 5 && gameState.heatLevel === 1) {
+        gameState.heatLevel = 2;
+        challenge = "<div class='event-text'>La temperatura está subiendo...</div>" + challenge;
+    } else if (gameState.challengeCount === 12 && gameState.heatLevel === 2) {
+        gameState.heatLevel = 3;
+        challenge = "<div class='event-text'>Sin inhibiciones...</div>" + challenge;
+    }
+
+    updateScreen(challenge);
+    gameState.history.push(challenge);
+    if (gameState.history.length > 20) gameState.history.shift();
+
+    nextChallengeBtn.disabled = false;
+    nextChallengeBtn.innerHTML = "🔥 Siguiente Reto 🔥";
+}
+
+function updateScreen(content) {
     challengeTextElement.style.opacity = '0';
     setTimeout(() => {
-        challengeTextElement.textContent = newChallenge;
+        challengeTextElement.innerHTML = content;
         challengeTextElement.style.opacity = '1';
     }, 400);
 }
 
-// Asignar la función al clic del botón
-nextChallengeBtn.addEventListener('click', showNewChallenge);
+function selectRandom(array) { return array[Math.floor(Math.random() * array.length)]; }
+
+// --- 5. INICIO ---
+nextChallengeBtn.addEventListener('click', nextTurn);
+updateScreen("Presiona el botón para que el destino decida tu primer reto...");
