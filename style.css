@@ -3,6 +3,7 @@
     --secondary-bg-color: #16213e;
     --accent-color: #e94560;
     --font-color: #e0e0e0;
+    --yellow-highlight: #ffc107;
     --font-family: 'Poppins', sans-serif;
 }
 
@@ -21,7 +22,7 @@ body {
 
 .game-container {
     width: 100%;
-    max-width: 450px; /* Un poco más de espacio */
+    max-width: 450px;
     text-align: center;
 }
 
@@ -29,19 +30,21 @@ body {
     background: linear-gradient(to right, #24243e, #0f0c29);
     border: 2px solid var(--accent-color);
     border-radius: 12px;
-    padding: 40px 30px; /* Más padding para que el texto respire */
+    padding: 40px 30px;
     margin-bottom: 30px;
-    min-height: 150px; /* Más altura */
+    min-height: 150px;
     display: flex;
+    flex-direction: column; /* Cambiado para permitir apilar elementos */
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 20px rgba(233, 69, 96, 0.4);
     transition: all 0.4s ease;
 }
 
-.screen p {
+/* Estilo por defecto para el texto de los retos */
+.screen p, .screen div {
     margin: 0;
-    font-size: 1.4rem; /* Texto más grande */
+    font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.6;
 }
@@ -51,7 +54,7 @@ body {
 }
 
 #next-challenge-btn {
-    flex-grow: 1; /* Ocupa todo el ancho */
+    flex-grow: 1;
     padding: 20px;
     border: none;
     border-radius: 12px;
@@ -76,4 +79,54 @@ body {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+
+/* --- NUEVOS ESTILOS PARA EL MOTOR DEL DESTINO --- */
+
+/* Estilo para los textos de eventos (subida de nivel, confirmaciones) */
+.event-text {
+    font-style: italic;
+    color: var(--yellow-highlight);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* Estilo para el contenedor de las preguntas de enfoque */
+.focus-question {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 25px; /* Más espacio */
+}
+
+/* Contenedor de los botones de opción */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Estilo para cada botón de opción (A, B) */
+.option-btn {
+    width: 100%;
+    padding: 18px;
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+    background-color: transparent;
+    color: var(--font-color);
+    font-family: var(--font-family);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: left; /* Texto alineado a la izquierda para un look de menú */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+
+.option-btn:hover {
+    background-color: var(--accent-color);
+    color: white;
+    transform: scale(1.03);
 }
