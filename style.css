@@ -1,0 +1,79 @@
+:root {
+    --primary-bg-color: #1a1a2e;
+    --secondary-bg-color: #16213e;
+    --accent-color: #e94560;
+    --font-color: #e0e0e0;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--primary-bg-color);
+    color: var(--font-color);
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 450px; /* Un poco más de espacio */
+    text-align: center;
+}
+
+.screen {
+    background: linear-gradient(to right, #24243e, #0f0c29);
+    border: 2px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 40px 30px; /* Más padding para que el texto respire */
+    margin-bottom: 30px;
+    min-height: 150px; /* Más altura */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(233, 69, 96, 0.4);
+    transition: all 0.4s ease;
+}
+
+.screen p {
+    margin: 0;
+    font-size: 1.4rem; /* Texto más grande */
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.action-buttons-container {
+    display: flex;
+}
+
+#next-challenge-btn {
+    flex-grow: 1; /* Ocupa todo el ancho */
+    padding: 20px;
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-family);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background: linear-gradient(45deg, #ff416c, #e94560, #ff7e5f);
+    background-size: 200% 200%;
+    animation: gradient-animation 5s ease infinite;
+    box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+}
+
+#next-challenge-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.6);
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
